@@ -1,2 +1,4 @@
-@import 'bootstrap/scss/bootstrap';
+@use 'bootstrap' as *;
+
+/* bootstrap-icons provides CSS/font files. Keep import for the icon fonts. */
 @import 'bootstrap-icons/font/bootstrap-icons';
