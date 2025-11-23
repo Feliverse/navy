@@ -26,15 +26,20 @@
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
 
 # Número de workers (procesos). Render ajusta WEB_CONCURRENCY según la instancia.
-workers ENV.fetch("WEB_CONCURRENCY", 2)
+# On Windows Ruby does not support fork/worker mode; avoid configuring workers there.
+unless Gem.win_platform?
+  workers ENV.fetch("WEB_CONCURRENCY", 2)
+end
 
 
 # Número de threads por worker
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 5)
 threads threads_count, threads_count
 
-# Preload para mejorar rendimiento en producción
-preload_app!
+# Preload para mejorar rendimiento en producción (solo cuando se usan workers)
+unless Gem.win_platform?
+  preload_app!
+end
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 port ENV.fetch("PORT", 3000)
@@ -43,8 +48,10 @@ port ENV.fetch("PORT", 3000)
 environment ENV.fetch("RACK_ENV", "production")
 
 # Reconexión de ActiveRecord en cada worker
-on_worker_boot do
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+unless Gem.win_platform?
+  on_worker_boot do
+    ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+  end
 end
 
 # Allow puma to be restarted by `bin/rails restart` command.
