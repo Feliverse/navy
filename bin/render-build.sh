@@ -3,7 +3,8 @@
 set -o errexit
 
 bundle install
-npm install --legacy-peer-deps
+# Use Yarn to respect the repository's `yarn.lock` and avoid Bun/npm mismatches on Render
+yarn install --frozen-lockfile
 bundle exec rake assets:precompile
 bundle exec rake assets:clean
 bundle exec rake db:migrate

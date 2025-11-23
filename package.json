@@ -17,6 +17,9 @@
     "build:css": "yarn build:css:compile && yarn build:css:prefix",
     "watch:css": "nodemon --watch ./app/assets/stylesheets/ --ext scss --exec \"yarn build:css\""
   },
+  "engines": {
+    "node": "20.x"
+  },
   "browserslist": [
     "defaults"
   ]
