@@ -3,6 +3,8 @@
 set -o errexit
 
 bundle install
+# Remove npm lockfile if present to avoid Yarn warning/error about mixed lockfiles
+rm -f package-lock.json
 # Use Yarn to respect the repository's `yarn.lock` and avoid Bun/npm mismatches on Render
 yarn install --frozen-lockfile
 bundle exec rake assets:precompile
