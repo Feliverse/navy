@@ -1,4 +1,7 @@
-@use 'bootstrap' as *;
+// Load Bootstrap's main SCSS entry directly from the package so the
+// sass compiler (with --load-path=node_modules) can resolve it on Render.
+@use 'bootstrap/scss/bootstrap' as *;
 
-/* bootstrap-icons provides CSS/font files. Keep import for the icon fonts. */
-@import 'bootstrap-icons/font/bootstrap-icons';
+/* bootstrap-icons provides plain CSS/font files. Import the CSS file
+	explicitly so Sass treats it as a CSS import. */
+@import 'bootstrap-icons/font/bootstrap-icons.css';
